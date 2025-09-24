@@ -56,6 +56,7 @@ You can run the following baselines to compare with SaSPartitioner by setting th
 - Hash: `hash`
 - cAM: `cam`
 - DAGreedy: `dagreedy`
+- FlexD: `flexd`
 - Dalton: `dalton-original`
 - Dalton with collected metrics as observations: `dalton-metrics`
 
