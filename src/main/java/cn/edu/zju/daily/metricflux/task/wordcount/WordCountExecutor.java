@@ -170,6 +170,25 @@ public class WordCountExecutor {
                             params.getWindowSize(),
                             params.getNumKeys(),
                             params.getInitialPerf());
+        } else if ("flexd".equals(partitionerName)) {
+            // Baseline: FlexD
+            int metricWindowNumSlides =
+                    (int)
+                            Math.floorDiv(
+                                    params.getMetricWindowSizeMillis(),
+                                    params.getMetricWindowSlideMillis());
+
+            partitioner =
+                    new FlexD<>(
+                            params.getMetricCollectorPort(),
+                            numWorkers,
+                            metricWindowNumSlides,
+                            params.getNumMetricsPerWorker(),
+                            params.getEpisodeLength(),
+                            params.getWindowSlide(),
+                            params.getWindowSize(),
+                            params.getNumKeys(),
+                            params.getInitialPerf());
         } else if ("dalton-original".equals(partitionerName)) {
             // Baseline: Dalton
             int metricWindowNumSlides =

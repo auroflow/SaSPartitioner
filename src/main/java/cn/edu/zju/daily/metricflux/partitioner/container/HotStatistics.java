@@ -230,4 +230,12 @@ public class HotStatistics implements Serializable {
     public void setHotInterval(int h) {
         hotInterval = h;
     }
+
+    public double getFrequency(int key) {
+        int count =
+                usingSketch
+                        ? countMinSketch.estimateCount(key)
+                        : keysStatistics.getOrDefault(key, 0);
+        return (double) count / total;
+    }
 }

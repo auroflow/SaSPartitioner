@@ -1,7 +1,6 @@
 package cn.edu.zju.daily.metricflux.task.tdigest;
 
 import static cn.edu.zju.daily.metricflux.utils.RoutingTableUtils.*;
-import static cn.edu.zju.daily.metricflux.utils.RoutingTableUtils.getZipfProbabilities;
 import static java.util.stream.Collectors.toList;
 
 import cn.edu.zju.daily.metricflux.core.KeySplittingPipeline;
@@ -160,6 +159,25 @@ public class TDigestExecutor {
 
             partitioner =
                     new DAGreedy<>(
+                            params.getMetricCollectorPort(),
+                            numWorkers,
+                            metricWindowNumSlides,
+                            params.getNumMetricsPerWorker(),
+                            params.getEpisodeLength(),
+                            params.getWindowSlide(),
+                            params.getWindowSize(),
+                            params.getNumKeys(),
+                            params.getInitialPerf());
+        } else if ("flexd".equals(partitionerName)) {
+            // Baseline: FlexD
+            int metricWindowNumSlides =
+                    (int)
+                            Math.floorDiv(
+                                    params.getMetricWindowSizeMillis(),
+                                    params.getMetricWindowSlideMillis());
+
+            partitioner =
+                    new FlexD<>(
                             params.getMetricCollectorPort(),
                             numWorkers,
                             metricWindowNumSlides,
